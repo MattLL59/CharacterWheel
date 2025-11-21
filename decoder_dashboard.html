@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Trait Dashboard</title>
+    <style>
+        /* --- LAYOUT & SCROLLING --- */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            height: 100vh;
+            display: flex; /* Split Screen Layout */
+            overflow: hidden;
+        }
+
+        /* --- LEFT PANEL: INFO SHEET --- */
+        .sidebar {
+            width: 35%; /* Takes up 35% of the screen */
+            background-color: #fff;
+            border-right: 2px solid #ddd;
+            padding: 20px;
+            overflow-y: auto; /* Allows scrolling if list is long */
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        .sidebar h2 { color: #333; margin-top: 0; }
+        .sidebar p { color: #666; font-size: 14px; margin-bottom: 20px; }
+
+        /* Character Cards */
+        .char-card {
+            background: #f9f9f9;
+            border-left: 5px solid #0056b3; /* Matches Blue Ring */
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .char-name { font-weight: bold; font-size: 16px; color: #333; }
+        .char-desc { font-size: 13px; color: #555; margin: 5px 0; }
+        .char-traits { 
+            font-size: 12px; 
+            font-weight: bold; 
+            color: #d9534f; /* Matches Red Ring */ 
+            text-transform: uppercase;
+        }
+
+        /* --- RIGHT PANEL: THE WHEEL --- */
+        .main-content {
+            flex: 1; /* Takes up remaining space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #eef2f5;
+            position: relative;
+        }
+
+        /* --- WHEEL STYLES (From V2) --- */
+        .wheel-container {
+            position: relative;
+            width: 550px; /* Slightly smaller to fit side panel */
+            height: 550px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.1s linear;
+        }
+        .ring:active { cursor: grabbing; }
+
+        #outer-ring {
+            width: 500px; height: 500px;
+            background-color: #0056b3; border: 4px solid #fff; z-index: 1;
+        }
+        #inner-ring {
+            width: 350px; height: 350px;
+            background-color: #d9534f; border: 4px solid #fff; z-index: 2;
+        }
+        #center-circle {
+            position: absolute;
+            width: 180px; height: 180px;
+            background-color: white;
+            border-radius: 50%; z-index: 3;
+            border: 5px solid #333;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; pointer-events: none;
+        }
+
+        /* Text on Rings */
+        .ring-text {
+            position: absolute; height: 50%; top: 0; left: 50%;
+            transform-origin: bottom center; width: 0; pointer-events: none;
+        }
+        .text-label {
+            position: absolute; top: 15px; left: -75px; width: 150px;
+            text-align: center; color: white; font-weight: bold; font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .arrow {
+            position: absolute; top: 0px; z-index: 10;
+            border-left: 20px solid transparent; border-right: 20px solid transparent;
+            border-top: 30px solid #333;
+        }
+
+        /* Result Styles */
+        #result-title { font-size: 28px; font-weight: 900; margin: 0; }
+        #result-desc { font-size: 12px; color: #666; padding: 0 10px; }
+        .clash { color: #d9534f; }
+        .connect { color: #28a745; }
+        .neutral { color: #ccc; }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Character Profiles</h2>
+        <p>Review the profiles below, then use the wheel to test interactions.</p>
+
+        <div class="char-card">
+            <div class="char-name">Aisha, The Volunteer</div>
+            <div class="char-desc">Runs charity events. Acts with her heart, often before checking the rules.</div>
+            <div class="char-traits">Trait: Impulsive</div>
+        </div>
+
+        <div class="char-card">
+            <div class="char-name">Ms. Patel, The Principal</div>
+            <div class="char-desc">Strict adherence to school policy. Keeps the school running perfectly.</div>
+            <div class="char-traits">Trait: Disciplined</div>
+        </div>
+
+        <div class="char-card">
+            <div class="char-name">Sam, The App Developer</div>
+            <div class="char-desc">A brilliant coder who lives in messy chaos. Solves big problems creatively.</div>
+            <div class="char-traits">Trait: Chaotic</div>
+        </div>
+
+        <div class="char-card">
+            <div class="char-name">Omar, The YouTuber</div>
+            <div class="char-desc">Loves the spotlight. Often exaggerates stories for more views.</div>
+            <div class="char-traits">Trait: Dramatic</div>
+        </div>
+
+        <div class="char-card">
+            <div class="char-name">Jasmine, The Transfer</div>
+            <div class="char-desc">Incredibly shy but observant. Prefers sketching in quiet corners.</div>
+            <div class="char-traits">Trait: Reserved</div>
+        </div>
+
+        <div class="char-card">
+            <div class="char-name">Tensing, Student Rep</div>
+            <div class="char-desc">Warm and welcoming. Wants to make sure everyone feels included.</div>
+            <div class="char-traits">Trait: Supportive</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="wheel-container">
+            <div class="arrow"></div>
+            <div id="outer-ring" class="ring"></div>
+            <div id="inner-ring" class="ring"></div>
+            <div id="center-circle">
+                <div id="result-title" class="neutral">...</div>
+                <div id="result-desc">Align Pair</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const characters = ['Aisha', 'Ms. Patel', 'Sam', 'Omar', 'Jasmine', 'Tensing'];
+        const traits = ['Impulsive', 'Disciplined', 'Chaotic', 'Dramatic', 'Reserved', 'Supportive'];
+
+        const interactions = {
+            'Aisha+Disciplined': 'CLASH', 'Ms. Patel+Impulsive': 'CLASH',
+            'Ms. Patel+Chaotic': 'CLASH', 'Sam+Disciplined': 'CLASH',
+            'Jasmine+Dramatic': 'CLASH', 'Omar+Reserved': 'CLASH',
+            'Aisha+Supportive': 'CONNECT', 'Ms. Patel+Disciplined': 'CONNECT',
+            'Sam+Chaotic': 'CONNECT', 'Omar+Impulsive': 'CONNECT',
+            'Tensing+Reserved': 'CONNECT', 'Jasmine+Reserved': 'CONNECT',
+            'Aisha+Dramatic': 'CONNECT', 'Sam+Reserved': 'CONNECT'
+        };
+
+        function setupRing(elementId, items) {
+            const ring = document.getElementById(elementId);
+            const angleStep = 360 / items.length;
+            items.forEach((item, index) => {
+                const spoke = document.createElement('div');
+                spoke.classList.add('ring-text');
+                spoke.style.transform = `rotate(${index * angleStep}deg)`;
+                const label = document.createElement('div');
+                label.classList.add('text-label');
+                label.innerText = item;
+                spoke.appendChild(label);
+                ring.appendChild(spoke);
+            });
+        }
+        setupRing('outer-ring', characters);
+        setupRing('inner-ring', traits);
+
+        let activeRing = null;
+        let startAngle = 0;
+        let currentRotations = { 'outer-ring': 0, 'inner-ring': 0 };
+        const container = document.querySelector('.wheel-container');
+
+        function getMouseAngle(e) {
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            return Math.atan2(clientY - centerY, clientX - centerX) * (180 / Math.PI);
+        }
+
+        window.addEventListener('mousedown', startDrag);
+        window.addEventListener('touchstart', startDrag, { passive: false });
+
+        function startDrag(e) {
+            if (e.target.id === 'outer-ring' || e.target.id === 'inner-ring') {
+                activeRing = e.target;
+                startAngle = getMouseAngle(e) - currentRotations[activeRing.id];
+            }
+        }
+
+        window.addEventListener('mousemove', moveDrag);
+        window.addEventListener('touchmove', moveDrag, { passive: false });
+
+        function moveDrag(e) {
+            if (!activeRing) return;
+            e.preventDefault();
+            const angle = getMouseAngle(e);
+            currentRotations[activeRing.id] = angle - startAngle;
+            activeRing.style.transform = `rotate(${currentRotations[activeRing.id]}deg)`;
+            checkMatch();
+        }
+
+        window.addEventListener('mouseup', () => activeRing = null);
+        window.addEventListener('touchend', () => activeRing = null);
+
+        const titleDisplay = document.getElementById('result-title');
+        const descDisplay = document.getElementById('result-desc');
+
+        function checkMatch() {
+            const charIndex = getIndexAtTop(currentRotations['outer-ring'], characters.length);
+            const traitIndex = getIndexAtTop(currentRotations['inner-ring'], traits.length);
+            const charName = characters[charIndex];
+            const traitName = traits[traitIndex];
+            const key = charName + '+' + traitName;
+            const result = interactions[key];
+
+            if (result === 'CLASH') {
+                titleDisplay.innerText = "CLASH 💥";
+                titleDisplay.className = "clash";
+                descDisplay.innerText = `${charName} vs ${traitName}`;
+            } else if (result === 'CONNECT') {
+                titleDisplay.innerText = "CONNECT 🤝";
+                titleDisplay.className = "connect";
+                descDisplay.innerText = `${charName} & ${traitName}`;
+            } else {
+                titleDisplay.innerText = "...";
+                titleDisplay.className = "neutral";
+                descDisplay.innerText = `${charName} + ${traitName}`;
+            }
+        }
+
+        function getIndexAtTop(rotation, totalItems) {
+            const step = 360 / totalItems;
+            let angle = rotation % 360;
+            if (angle < 0) angle += 360;
+            const index = Math.round((360 - angle) / step) % totalItems;
+            return index;
+        }
+        
+        checkMatch();
+    </script>
+</body>
+</html>
