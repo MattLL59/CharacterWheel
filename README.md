@@ -1,0 +1,1 @@
+This is just a way of thinking about how different character traits would either connect or clash. Put the character in the outser circle next to the arrow at the top and drag the inner wheel to see if they connect or clash.
