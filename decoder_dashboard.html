@@ -10,7 +10,7 @@
         * { box-sizing: border-box; }
         body {
             font-family: Arial, sans-serif;
-            background-color: #ffffff; /* PURE WHITE */
+            background-color: #ffffff;
             margin: 0;
             height: 100vh;
             display: flex;
@@ -20,7 +20,7 @@
         /* --- SIDEBAR (INFO PANEL) --- */
         .sidebar {
             width: 35%;
-            background-color: #ffffff; /* PURE WHITE */
+            background-color: #ffffff;
             border-right: 2px solid #ddd;
             padding: 20px;
             overflow-y: auto;
@@ -28,12 +28,31 @@
         .sidebar h2 { color: #333; margin-top: 0; }
         
         .char-card {
-            background: #f9f9f9; /* Retaining a very light grey for card separation */
+            background: #f9f9f9;
             border-left: 5px solid #0056b3;
             padding: 10px;
             margin-bottom: 10px;
+            display: flex; /* Make it a flex container for image and text */
+            align-items: flex-start; /* Align items to the top */
+            gap: 10px; /* Space between image and text */
         }
-        .char-name { font-weight: bold; font-size: 16px; color: #333; }
+        
+        /* NEW: Thumbnail Image Styling */
+        .char-thumbnail {
+            width: 60px; /* Fixed width for thumbnail */
+            height: 60px; /* Fixed height for thumbnail */
+            border-radius: 50%; /* Make it circular */
+            object-fit: cover; /* Ensures image covers the area without distortion */
+            border: 2px solid #ccc;
+            flex-shrink: 0; /* Prevents the image from shrinking */
+        }
+
+        /* Container for text content next to the image */
+        .char-text-content {
+            flex-grow: 1; /* Allows text content to take remaining space */
+        }
+
+        .char-name { font-weight: bold; font-size: 16px; color: #333; margin-top: 0; margin-bottom: 3px; }
         .char-desc { font-size: 13px; color: #555; margin: 3px 0 5px 0; }
         
         .char-full-traits {
@@ -50,42 +69,24 @@
             margin-top: 0px; 
         }
 
-        /* --- MAIN AREA & WHEEL STYLES --- */
+        /* --- MAIN AREA & WHEEL STYLES (Unchanged) --- */
         .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #ffffff; /* PURE WHITE */
+            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #ffffff;
         }
-
         .wheel-container {
-            position: relative;
-            width: 550px;
-            height: 550px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative; width: 550px; height: 550px; display: flex; justify-content: center; align-items: center;
         }
 
         /* RINGS */
         .ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: transform 0.1s linear;
-            cursor: grab;
+            position: absolute; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: transform 0.1s linear; cursor: grab;
         }
         .ring:active { cursor: grabbing; }
-
         #outer-ring { width: 500px; height: 500px; background-color: #0056b3; z-index: 1; }
         #inner-ring { width: 350px; height: 350px; background-color: #d9534f; z-index: 2; }
 
         /* TEXT ON RINGS (Stacked) */
         .ring-spoke { position: absolute; height: 50%; top: 0; left: 50%; width: 0; transform-origin: bottom center; pointer-events: none; }
-        
         .text-label { position: absolute; top: 10px; left: -75px; width: 150px; text-align: center; color: white; font-weight: bold; font-size: 14px; line-height: 1.2; }
         .line-1 { display: block; font-size: 14px; }
         .line-2 { display: block; font-size: 10px; font-weight: normal; opacity: 0.8; }
@@ -94,8 +95,6 @@
         #center-circle { position: absolute; width: 180px; height: 180px; background-color: white; border-radius: 50%; z-index: 3; border: 5px solid #333; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
         .arrow { position: absolute; top: 0px; z-index: 10; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 30px solid #333; }
         #result-title { font-size: 28px; font-weight: 900; margin: 0; }
-
-        /* Logic Colors */
         .clash { color: #d9534f; }
         .connect { color: #28a745; }
         .neutral { color: #ccc; }
@@ -114,45 +113,63 @@
         <p>The highlighted trait is the one used on the wheel.</p>
 
         <div class="char-card">
-            <div class="char-name">Aisha, The Volunteer</div>
-            <div class="char-desc">Runs charity events. Acts with her heart, often before checking the rules.</div>
-            <div class="char-traits">Trait: Impulsive</div>
-            <div class="char-full-traits">Brave, Adventurous, Impulsive, Focused, Curious</div>
+            <img class="char-thumbnail" src=https://1drv.ms/i/c/a031507feea7dae8/IQCN0lxYUk99TozoBALBvVbqAVgOgk3Ux11ToYe9aIXKkQ0?e=AWKKpR alt="Aisha">
+            <div class="char-text-content">
+                <div class="char-name">Aisha, The Volunteer</div>
+                <div class="char-desc">Runs charity events. Acts with her heart, often before checking the rules.</div>
+                <div class="char-traits">Trait: Impulsive</div>
+                <div class="char-full-traits">Brave, Adventurous, Impulsive, Focused, Curious</div>
+            </div>
         </div>
 
         <div class="char-card">
-            <div class="char-name">Ms. Patel, The Principal</div>
-            <div class="char-desc">Strict adherence to school policy. Keeps the school running perfectly.</div>
-            <div class="char-traits">Trait: Disciplined</div>
-            <div class="char-full-traits">Strict, Disciplined, Diligent, Unyielding, Practical</div>
+            <img class="char-thumbnail" src=https://1drv.ms/i/c/a031507feea7dae8/IQAoEO6gg5h4TYL1Otg8teTVAXbMWDlJKpqjIQG8ThXYO98?e=M10Vcp alt="Ms. Patel">
+            <div class="char-text-content">
+                <div class="char-name">Ms. Patel, The Principal</div>
+                <div class="char-desc">Strict adherence to school policy. Keeps the school running perfectly.</div>
+                <div class="char-traits">Trait: Disciplined</div>
+                <div class="char-full-traits">Strict, Disciplined, Diligent, Unyielding, Practical</div>
+            </div>
         </div>
 
         <div class="char-card">
-            <div class="char-name">Sam, The App Developer</div>
-            <div class="char-desc">A brilliant coder who lives in messy chaos. Solves big problems creatively.</div>
-            <div class="char-traits">Trait: Chaotic</div>
-            <div class="char-full-traits">Intelligent, Chaotic, Forgetful, Creative, Innovative</div>
+            <img class="char-thumbnail" src=https://1drv.ms/i/c/a031507feea7dae8/IQB9VAHc3p3KS6xZd3lm9iA7AZ1CiJGmaEYnMdmLouhMMLc?e=7CIdPA alt="Sam">
+            <div class="char-text-content">
+                <div class="char-name">Sam, The App Developer</div>
+                <div class="char-desc">A brilliant coder who lives in messy chaos. Solves big problems creatively.</div>
+                <div class="char-traits">Trait: Chaotic</div>
+                <div class="char-full-traits">Intelligent, Chaotic, Forgetful, Creative, Innovative</div>
+            </div>
         </div>
 
         <div class="char-card">
-            <div class="char-name">Omar, The YouTuber</div>
-            <div class="char-desc">Loves the spotlight. Often exaggerates stories for more views.</div>
-            <div class="char-traits">Trait: Dramatic</div>
-            <div class="char-full-traits">Expressive, Exaggerated, Outgoing, Imaginative, Dramatic</div>
+            <img class="char-thumbnail" src=https://1drv.ms/i/c/a031507feea7dae8/IQAr5pZHyNJVRr9mr2owUsXdASg03dGOdXV87bAgiz4wE40?e=5JZeAB alt="Omar">
+            <div class="char-text-content">
+                <div class="char-name">Omar, The YouTuber</div>
+                <div class="char-desc">Loves the spotlight. Often exaggerates stories for more views.</div>
+                <div class="char-traits">Trait: Dramatic</div>
+                <div class="char-full-traits">Expressive, Exaggerated, Outgoing, Imaginative, Dramatic</div>
+            </div>
         </div>
 
         <div class="char-card">
-            <div class="char-name">Jasmine, The Transfer</div>
-            <div class="char-desc">Incredibly shy but observant. Prefers sketching in quiet corners.</div>
-            <div class="char-traits">Trait: Reserved</div>
-            <div class="char-full-traits">Shy, Introverted, Timid, Artistic, Reserved</div>
+            <img class="char-thumbnail" src=https://1drv.ms/i/c/a031507feea7dae8/IQBlnrQD7KmkQpBmv53m1wy4AZ8IeVuXBCj5lzkvJxFyHI4?e=YANnel alt="Jasmine">
+            <div class="char-text-content">
+                <div class="char-name">Jasmine, The Transfer</div>
+                <div class="char-desc">Incredibly shy but observant. Prefers sketching in quiet corners.</div>
+                <div class="char-traits">Trait: Reserved</div>
+                <div class="char-full-traits">Shy, Introverted, Timid, Artistic, Reserved</div>
+            </div>
         </div>
 
         <div class="char-card">
-            <div class="char-name">Tensing, Student Rep</div>
-            <div class="char-desc">Warm and welcoming. Wants to make sure everyone feels included.</div>
-            <div class="char-traits">Trait: Supportive</div>
-            <div class="char-full-traits">Organized, Sociable, Supportive, Warm, Community-Oriented</div>
+            <img class="char-thumbnail" src=https://1drv.ms/i/c/a031507feea7dae8/IQB6bZQRWun9S4Otm1XRoyEUAXLhJ8v11gPT6A3XPqx2V5g?e=L89mfr alt="Tensing">
+            <div class="char-text-content">
+                <div class="char-name">Tensing, Student Rep</div>
+                <div class="char-desc">Warm and welcoming. Wants to make sure everyone feels included.</div>
+                <div class="char-traits">Trait: Supportive</div>
+                <div class="char-full-traits">Organized, Sociable, Supportive, Warm, Community-Oriented</div>
+            </div>
         </div>
     </div>
 
