@@ -17,7 +17,7 @@
             overflow: hidden;
         }
 
-        /* --- SIDEBAR (Unchanged) --- */
+        /* --- SIDEBAR --- */
         .sidebar { width: 35%; background-color: #fff; border-right: 2px solid #ddd; padding: 20px; overflow-y: auto; }
         .sidebar h2 { color: #333; margin-top: 0; }
         .char-card { background: #f9f9f9; border-left: 5px solid #0056b3; padding: 10px; margin-bottom: 10px; }
@@ -25,49 +25,54 @@
         .char-traits { font-size: 12px; font-weight: bold; color: #d9534f; text-transform: uppercase; margin-top: 5px; }
 
         /* --- MAIN AREA --- */
-        .main-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #eef2f5; }
-        .wheel-container { position: relative; width: 550px; height: 550px; display: flex; justify-content: center; align-items: center; }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #eef2f5;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 550px;
+            height: 550px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         /* --- RINGS --- */
-        .ring { position: absolute; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: transform 0.1s linear; }
-        #outer-ring { width: 500px; height: 500px; background-color: #0056b3; z-index: 1; }
-        #inner-ring { width: 350px; height: 350px; background-color: #d9534f; z-index: 2; }
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.1s linear; /* Smooth mouse tracking */
+            cursor: grab; /* Indicates drag capability */
+        }
         .ring:active { cursor: grabbing; }
 
-        /* --- TEXT POSITIONING (MODIFIED) --- */
-        .ring-spoke {
-            position: absolute; height: 50%; top: 0; left: 50%; width: 0;
-            transform-origin: bottom center; pointer-events: none;
-        }
+        #outer-ring { width: 500px; height: 500px; background-color: #0056b3; z-index: 1; }
+        #inner-ring { width: 350px; height: 350px; background-color: #d9534f; z-index: 2; }
 
-        /* New container for the stacked text */
-        .text-label {
-            position: absolute; top: 10px; left: -75px; width: 150px;
-            text-align: center; color: white; font-weight: bold; font-size: 14px;
-            line-height: 1.2;
-        }
+        /* --- TEXT POSITIONING --- */
+        .ring-spoke { position: absolute; height: 50%; top: 0; left: 50%; width: 0; transform-origin: bottom center; pointer-events: none; }
         
-        /* Individual text lines */
-        .line-1 { display: block; font-size: 14px; } /* Main text (Name on Outer, Trait on Inner) */
-        .line-2 { display: block; font-size: 10px; font-weight: normal; opacity: 0.8; } /* Secondary text */
+        .text-label { position: absolute; top: 10px; left: -75px; width: 150px; text-align: center; color: white; font-weight: bold; font-size: 14px; line-height: 1.2; }
+        .line-1 { display: block; font-size: 14px; }
+        .line-2 { display: block; font-size: 10px; font-weight: normal; opacity: 0.8; }
 
-        /* Specific coloring for clarity */
-        #outer-ring .line-1 { color: #ffffff; } /* Name is primary color on blue ring */
-        #outer-ring .line-2 { color: #ffe4c4; } /* Trait is secondary color */
-
-        #inner-ring .line-1 { color: #ffffff; } /* Trait is primary color on red ring */
-        #inner-ring .line-2 { color: #fffacd; } /* Name is secondary color */
-
-        /* --- CENTER & UI (Unchanged) --- */
+        /* --- CENTER & UI --- */
         #center-circle { position: absolute; width: 180px; height: 180px; background-color: white; border-radius: 50%; z-index: 3; border: 5px solid #333; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
         .arrow { position: absolute; top: 0px; z-index: 10; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 30px solid #333; }
         #result-title { font-size: 28px; font-weight: 900; margin: 0; }
-        #result-desc { font-size: 12px; color: #666; padding: 0 10px; }
         .clash { color: #d9534f; }
         .connect { color: #28a745; }
         .neutral { color: #ccc; }
 
-        /* --- CONTROLS (Unchanged) --- */
+        /* --- CONTROLS --- */
         .controls-area { margin-top: 20px; display: flex; gap: 20px; }
         .control-group { text-align: center; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         button { padding: 8px 15px; font-size: 16px; cursor: pointer; background-color: #eee; border: 1px solid #ccc; border-radius: 4px; }
@@ -91,81 +96,21 @@
             <div class="arrow"></div>
 
             <div id="outer-ring" class="ring">
-                <div class="ring-spoke" style="transform: rotate(0deg);">
-                    <div class="text-label">
-                        <span class="line-1">AISHA</span>
-                        <span class="line-2">IMPULSIVE</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(60deg);">
-                    <div class="text-label">
-                        <span class="line-1">MS. PATEL</span>
-                        <span class="line-2">DISCIPLINED</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(120deg);">
-                    <div class="text-label">
-                        <span class="line-1">SAM</span>
-                        <span class="line-2">CHAOTIC</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(180deg);">
-                    <div class="text-label">
-                        <span class="line-1">OMAR</span>
-                        <span class="line-2">DRAMATIC</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(240deg);">
-                    <div class="text-label">
-                        <span class="line-1">JASMINE</span>
-                        <span class="line-2">RESERVED</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(300deg);">
-                    <div class="text-label">
-                        <span class="line-1">TENSING</span>
-                        <span class="line-2">SUPPORTIVE</span>
-                    </div>
-                </div>
+                <div class="ring-spoke" style="transform: rotate(0deg);"><div class="text-label"><span class="line-1">AISHA</span><span class="line-2">IMPULSIVE</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(60deg);"><div class="text-label"><span class="line-1">MS. PATEL</span><span class="line-2">DISCIPLINED</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(120deg);"><div class="text-label"><span class="line-1">SAM</span><span class="line-2">CHAOTIC</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(180deg);"><div class="text-label"><span class="line-1">OMAR</span><span class="line-2">DRAMATIC</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(240deg);"><div class="text-label"><span class="line-1">JASMINE</span><span class="line-2">RESERVED</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(300deg);"><div class="text-label"><span class="line-1">TENSING</span><span class="line-2">SUPPORTIVE</span></div></div>
             </div>
 
             <div id="inner-ring" class="ring">
-                <div class="ring-spoke" style="transform: rotate(0deg);">
-                    <div class="text-label">
-                        <span class="line-1">IMPULSIVE</span>
-                        <span class="line-2">AISHA</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(60deg);">
-                    <div class="text-label">
-                        <span class="line-1">DISCIPLINED</span>
-                        <span class="line-2">MS. PATEL</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(120deg);">
-                    <div class="text-label">
-                        <span class="line-1">CHAOTIC</span>
-                        <span class="line-2">SAM</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(180deg);">
-                    <div class="text-label">
-                        <span class="line-1">DRAMATIC</span>
-                        <span class="line-2">OMAR</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(240deg);">
-                    <div class="text-label">
-                        <span class="line-1">RESERVED</span>
-                        <span class="line-2">JASMINE</span>
-                    </div>
-                </div>
-                <div class="ring-spoke" style="transform: rotate(300deg);">
-                    <div class="text-label">
-                        <span class="line-1">SUPPORTIVE</span>
-                        <span class="line-2">TENSING</span>
-                    </div>
-                </div>
+                <div class="ring-spoke" style="transform: rotate(0deg);"><div class="text-label"><span class="line-1">IMPULSIVE</span><span class="line-2">AISHA</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(60deg);"><div class="text-label"><span class="line-1">DISCIPLINED</span><span class="line-2">MS. PATEL</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(120deg);"><div class="text-label"><span class="line-1">CHAOTIC</span><span class="line-2">SAM</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(180deg);"><div class="text-label"><span class="line-1">DRAMATIC</span><span class="line-2">OMAR</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(240deg);"><div class="text-label"><span class="line-1">RESERVED</span><span class="line-2">JASMINE</span></div></div>
+                <div class="ring-spoke" style="transform: rotate(300deg);"><div class="text-label"><span class="line-1">SUPPORTIVE</span><span class="line-2">TENSING</span></div></div>
             </div>
 
             <div id="center-circle">
@@ -189,13 +134,11 @@
     </div>
 
     <script>
+        // --- DATA (ES5 COMPATIBLE) ---
         var characters = ['Aisha', 'Ms. Patel', 'Sam', 'Omar', 'Jasmine', 'Tensing'];
         var traits = ['Impulsive', 'Disciplined', 'Chaotic', 'Dramatic', 'Reserved', 'Supportive'];
 
-        var rotations = {
-            'outer-ring': 0,
-            'inner-ring': 0
-        };
+        var rotations = { 'outer-ring': 0, 'inner-ring': 0 };
 
         var interactions = {
             'Aisha+Disciplined': 'CLASH', 'Ms. Patel+Impulsive': 'CLASH',
@@ -207,6 +150,7 @@
             'Aisha+Dramatic': 'CONNECT', 'Sam+Reserved': 'CONNECT'
         };
 
+        // --- BUTTON LOGIC ---
         function rotateRing(id, deg) {
             rotations[id] += deg;
             var el = document.getElementById(id);
@@ -214,5 +158,87 @@
             checkMatch();
         }
 
+        // --- DRAG LOGIC (REINTRODUCED) ---
+        var activeRing = null;
+        var startAngle = 0;
+        var container = document.querySelector('.wheel-container');
+
+        function getMouseAngle(e) {
+            var rect = container.getBoundingClientRect();
+            var centerX = rect.left + rect.width / 2;
+            var centerY = rect.top + rect.height / 2;
+            var clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+            var clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+            return Math.atan2(clientY - centerY, clientX - centerX) * (180 / Math.PI);
+        }
+
+        window.addEventListener('mousedown', startDrag);
+        window.addEventListener('touchstart', startDrag, { passive: false });
+
+        function startDrag(e) {
+            if (e.target.id === 'outer-ring' || e.target.id === 'inner-ring') {
+                activeRing = e.target;
+                startAngle = getMouseAngle(e) - rotations[activeRing.id];
+                
+                window.addEventListener('mousemove', moveDrag);
+                window.addEventListener('mouseup', stopDrag);
+                window.addEventListener('touchmove', moveDrag, { passive: false });
+                window.addEventListener('touchend', stopDrag);
+            }
+        }
+
+        function moveDrag(e) {
+            if (!activeRing) return;
+            e.preventDefault();
+            var angle = getMouseAngle(e);
+            rotations[activeRing.id] = angle - startAngle;
+            activeRing.style.transform = 'rotate(' + rotations[activeRing.id] + 'deg)';
+            checkMatch();
+        }
+
+        function stopDrag() {
+            activeRing = null;
+            window.removeEventListener('mousemove', moveDrag);
+            window.removeEventListener('mouseup', stopDrag);
+            window.removeEventListener('touchmove', moveDrag);
+            window.removeEventListener('touchend', stopDrag);
+        }
+
+        // --- MATCH LOGIC (Unchanged) ---
         function checkMatch() {
             var charIndex = getIndex(rotations['outer-ring'], characters.length);
+            var traitIndex = getIndex(rotations['inner-ring'], traits.length);
+            var charName = characters[charIndex];
+            var traitName = traits[traitIndex];
+            var titleEl = document.getElementById('result-title');
+            var descEl = document.getElementById('result-desc');
+            var key = charName + '+' + traitName;
+            var result = interactions[key];
+
+            if (result === 'CLASH') {
+                titleEl.innerText = "CLASH 💥";
+                titleEl.className = "clash";
+                descEl.innerText = charName + " vs " + traitName;
+            } else if (result === 'CONNECT') {
+                titleEl.innerText = "CONNECT 🤝";
+                titleEl.className = "connect";
+                descEl.innerText = charName + " & " + traitName;
+            } else {
+                titleEl.innerText = "...";
+                titleEl.className = "neutral";
+                descEl.innerText = charName + " + " + traitName;
+            }
+        }
+
+        function getIndex(rotation, total) {
+            var step = 360 / total;
+            var angle = rotation % 360;
+            if (angle < 0) angle += 360;
+            var index = Math.round((360 - angle) / step) % total;
+            return index;
+        }
+
+        checkMatch();
+    </script>
+</body>
+</html>
